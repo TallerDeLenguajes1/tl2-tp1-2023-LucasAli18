@@ -35,30 +35,29 @@ namespace Pedidos
             Estado=EstadoPedidos.pendiente;
             CadeteCargo = null;
         }
-        public void MostrarPedido()
+        public string MostrarPedido()
         {
-            Console.WriteLine("--------------------------------");
-            Console.WriteLine("---------Pedido nro: "+this.Numero);
-            Console.WriteLine("---------Observacion: "+this.Obs);
-            Console.WriteLine("---------Estado: "+this.Estado);
-            if (CadeteCargo==null)
+            string pedidoInfo = "--------------------------------\n";
+            pedidoInfo += "---------Pedido nro: " + this.Numero + "\n";
+            pedidoInfo += "---------Observacion: " + this.Obs + "\n";
+            pedidoInfo += "---------Estado: " + this.Estado + "\n";
+            if (CadeteCargo == null)
             {
-                CadeteCargo="Sin cadete";
+                CadeteCargo = "Sin cadete";
             }
-            Console.WriteLine("---------Cadete a cargo: "+this.CadeteCargo);
-            Console.WriteLine("---------Cliente: ");
-            this.Cliente!.MostrarCliente();
-            Console.WriteLine("--------------------------------");
+            pedidoInfo += "---------Cadete a cargo: " + this.CadeteCargo + "\n";
+            pedidoInfo += "---------Cliente: \n";
+            pedidoInfo += this.Cliente!.MostrarCliente();
+            pedidoInfo += "--------------------------------";
+            return pedidoInfo;
         }
-        public void VerDireccionCliente(Cliente cliente)
+        public string VerDireccionCliente(Cliente cliente)
         {
-            Console.WriteLine("Direccion del cliente: "+cliente.Direccion);
-            Console.WriteLine("Direccion del cliente: "+cliente.DatosReferenciaDireccion);
-        }    
-        public void VerDatosCliente(Cliente cliente)
+            return "Direccion del cliente: " + cliente.Direccion + "\n" + "Direccion del cliente: " + cliente.DatosReferenciaDireccion;
+        }   
+        public string VerDatosCliente(Cliente cliente)
         {
-            Console.WriteLine("Direccion del cliente: "+cliente.Nombre);
-            Console.WriteLine("Direccion del cliente: "+cliente.Telefono);
+            return "Nombre del cliente: " + cliente.Nombre + "\n" + "Teléfono del cliente: " + cliente.Telefono;
         }   
         public void cambiarEstado(int num)
         {

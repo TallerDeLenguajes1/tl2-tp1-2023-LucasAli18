@@ -39,12 +39,10 @@ namespace Cadetes
         }
         public void TomarPedido(Pedido pedido)
         {
-            //this.listadoPedidos.Add(pedido);
             pedido.cambiarEstado(1);
         }
         public void SacarPedido (Pedido pedido)
         {
-            //this.listadoPedidos.Remove(pedido);
             pedido.cambiarEstado(2);
             pedido.MostrarPedido();
         }
@@ -57,7 +55,6 @@ namespace Cadetes
             }else if (num==3)
             {
             this.CantEnvios--;
-            //this.listadoPedidos.Remove(pedido);
             }else{
                 return;
             }

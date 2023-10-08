@@ -1,6 +1,7 @@
 using Cadetes;
 using Pedidos;
 using Clientes;
+using System.Text;
 namespace Cadeterias
 {
 public class Cadeteria
@@ -98,25 +99,33 @@ public class Cadeteria
         nuevo.CantEnvios++;
         nuevo.TomarPedido(pedido);
     }
-    public void MostrarCadetes()
+    public string MostrarCadetes()
     {
+        StringBuilder cadetesInfo = new StringBuilder();
+
         foreach (var cadete in this.listadoCadetes!)
         {
-            Console.WriteLine($"------CADETE ID {cadete.ObtenerID()} ----------");
-            Console.WriteLine($"NOMBRE {cadete.Nombre}");
-            Console.WriteLine($"DIRECCION {cadete.Direccion}");
-            Console.WriteLine($"TELEFONO {cadete.Telefono}");
-            Console.WriteLine("-----------------------------------------------");
-                   
+            cadetesInfo.AppendLine($"------CADETE ID {cadete.ObtenerID()} ----------");
+            cadetesInfo.AppendLine($"NOMBRE {cadete.Nombre}");
+            cadetesInfo.AppendLine($"DIRECCION {cadete.Direccion}");
+            cadetesInfo.AppendLine($"TELEFONO {cadete.Telefono}");
+            cadetesInfo.AppendLine("-----------------------------------------------");
         }
+
+        return cadetesInfo.ToString();
     }
-      public void MostrarPedidos()
-    {
-        foreach (var pedido in this.listadoPedidos!)
+      public string MostrarPedidos()
         {
-            pedido.MostrarPedido();
+            StringBuilder pedidosInfo = new StringBuilder();
+
+            foreach (var pedido in this.listadoPedidos!)
+            {
+                string pedidoInfo = pedido.MostrarPedido();
+                pedidosInfo.AppendLine(pedidoInfo);
+            }
+
+            return pedidosInfo.ToString();
         }
-    }
     public void JornalACobrar(int idCadete)
     {
         Cadete Encontrado = new Cadete();

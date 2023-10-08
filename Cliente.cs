@@ -27,12 +27,14 @@ namespace Clientes
             Telefono=0;
             DatosReferenciaDireccion = "";
         }
-        public void MostrarCliente()
+        public string MostrarCliente()
         {
-            Console.WriteLine($"---------Nombre: {this.nombre}");
-            Console.WriteLine($"---------Direccion: {this.direccion}");
-            Console.WriteLine($"---------telefono: {this.telefono}");
-            Console.WriteLine($"---------datosReferenciaDireccion: {this.datosReferenciaDireccion}");
+            string clienteInfo = $"---------Nombre: {this.nombre}\n";
+            clienteInfo += $"---------Direccion: {this.direccion}\n";
+            clienteInfo += $"---------Telefono: {this.telefono}\n";
+            clienteInfo += $"---------DatosReferenciaDireccion: {this.datosReferenciaDireccion}";
+            
+            return clienteInfo;
         }
     }
 }
