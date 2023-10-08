@@ -8,7 +8,6 @@ namespace Cadetes
         private string? nombre;
         private string? direccion;
         private string? telefono;
-        private List<Pedido> listadoPedidos;
         public int CantEnvios;
         public float CantGanado;
 
@@ -22,7 +21,6 @@ namespace Cadetes
             Nombre=nombre;
             Direccion = dir;
             Telefono=telefono;
-            this.listadoPedidos =new List<Pedido>();
             this.CantEnvios=0;
             this.CantGanado=0;
         }
@@ -32,7 +30,6 @@ namespace Cadetes
             Nombre="NN";
             Direccion = "NN";
             Telefono="999";
-            this.listadoPedidos =new List<Pedido>();
             this.CantEnvios=0;
             this.CantGanado=0;
         }
@@ -42,12 +39,12 @@ namespace Cadetes
         }
         public void TomarPedido(Pedido pedido)
         {
-            this.listadoPedidos.Add(pedido);
+            //this.listadoPedidos.Add(pedido);
             pedido.cambiarEstado(1);
         }
-        public void EliminarPedido (Pedido pedido)
+        public void SacarPedido (Pedido pedido)
         {
-            this.listadoPedidos.Remove(pedido);
+            //this.listadoPedidos.Remove(pedido);
             pedido.cambiarEstado(2);
             pedido.MostrarPedido();
         }
@@ -60,16 +57,9 @@ namespace Cadetes
             }else if (num==3)
             {
             this.CantEnvios--;
-            this.listadoPedidos.Remove(pedido);
+            //this.listadoPedidos.Remove(pedido);
             }else{
                 return;
-            }
-        }
-        public void MostrarPedidos()
-        {
-            foreach (var pedido in this.listadoPedidos)
-            {
-                pedido.MostrarPedido();
             }
         }
     }

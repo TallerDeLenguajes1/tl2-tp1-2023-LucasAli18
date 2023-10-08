@@ -12,8 +12,11 @@ namespace Pedidos
     {
         private int Numero;
         private string? Obs;
+        private string? CadeteCargo;
         private Cliente? Cliente;
         private EstadoPedidos Estado;
+
+        public string? CadeteCargo1 { get => CadeteCargo; set => CadeteCargo = value; }
 
         //Constructor PEDIDO
         public Pedido(int nro, string obs, Cliente cliente)
@@ -22,6 +25,7 @@ namespace Pedidos
             Obs=obs;
             Cliente =cliente;
             Estado = EstadoPedidos.pendiente;
+            CadeteCargo = null;
         }
         public Pedido()
         {
@@ -29,6 +33,7 @@ namespace Pedidos
             Obs="";
             Cliente =new Cliente();
             Estado=EstadoPedidos.pendiente;
+            CadeteCargo = null;
         }
         public void MostrarPedido()
         {
@@ -36,6 +41,11 @@ namespace Pedidos
             Console.WriteLine("---------Pedido nro: "+this.Numero);
             Console.WriteLine("---------Observacion: "+this.Obs);
             Console.WriteLine("---------Estado: "+this.Estado);
+            if (CadeteCargo==null)
+            {
+                CadeteCargo="Sin cadete";
+            }
+            Console.WriteLine("---------Cadete a cargo: "+this.CadeteCargo);
             Console.WriteLine("---------Cliente: ");
             this.Cliente!.MostrarCliente();
             Console.WriteLine("--------------------------------");
@@ -67,6 +77,10 @@ namespace Pedidos
                 Console.WriteLine("Ingreso mal el numero");
                 break;
             } 
+        }
+        public int ObtenerID()
+        {
+            return this.Numero;
         }
     }
 }

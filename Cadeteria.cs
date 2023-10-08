@@ -8,6 +8,7 @@ public class Cadeteria
     private string? nombre;
     private int telefono;
     private List<Cadete>? listadoCadetes;
+    private List<Pedido>? listadoPedidos;
     public string? Nombre { get => nombre; set => nombre = value; }
 
     public Cadeteria()
@@ -15,21 +16,33 @@ public class Cadeteria
         this.nombre="Wombat";
         this.telefono=4342392;
         this.listadoCadetes=new List<Cadete>();
+        this.listadoPedidos=new List<Pedido>();
     }
     public Cadeteria(string nombre, int telefono)
     {
         this.nombre=nombre;
         this.telefono=telefono;
         this.listadoCadetes=new List<Cadete>();
+        this.listadoPedidos=new List<Pedido>();
     }
-    public Cadete AsignarCadete(Pedido pedido)
+    public void AsignarCadeteAPedido(int idPedido, int idCadete)
     {
-        Console.WriteLine("A que cadete desea asignar el pedido?");
-        string? nombreCadete = Console.ReadLine();
-        this.listadoCadetes!.FirstOrDefault(p=>p.Nombre==nombreCadete)!.TomarPedido(pedido);
-        this.listadoCadetes!.FirstOrDefault(p=>p.Nombre==nombreCadete)!.CantEnvios++;
-        this.listadoCadetes!.FirstOrDefault(p=>p.Nombre==nombreCadete)!.MostrarPedidos();
-        return this.listadoCadetes!.FirstOrDefault(p=>p.Nombre==nombreCadete)!;
+        if (this.listadoPedidos!.FirstOrDefault(p=>p.ObtenerID()==idPedido)!=null)
+        {
+            Pedido Encontrado = new Pedido();
+            Encontrado = this.listadoPedidos!.FirstOrDefault(p=>p.ObtenerID()==idPedido)!;
+            if (this.listadoCadetes!.FirstOrDefault(c=>c.ObtenerID()==idCadete)!=null)
+            {
+                Encontrado.CadeteCargo1=this.listadoCadetes!.FirstOrDefault(c=>c.ObtenerID()==idCadete)!.Nombre;
+                Encontrado.cambiarEstado(1);
+                this.listadoCadetes!.FirstOrDefault(c=>c.ObtenerID()==idCadete)!.CantEnvios++;
+            }else
+            {
+                Console.WriteLine("No se encontro el cadete seleccionado");
+            }
+        }else{
+            Console.WriteLine("No se encontro el pedido");
+        }
     }
     public void AgregarCadete(List<Cadete> cadete)
     {
@@ -52,6 +65,7 @@ public class Cadeteria
         observacion = Console.ReadLine()!;
         Cliente nuevoCliente = new Cliente(nom,dir,tel,referencia);
         Pedido nuevoPedido = new Pedido(numeroPedido,observacion,nuevoCliente);
+        this.listadoPedidos!.Add(nuevoPedido);
         return nuevoPedido;
     }
     public void cambiarEstado(Pedido pedido, Cadete cadete)
@@ -80,7 +94,7 @@ public class Cadeteria
     public void cambiarCadete(Cadete viejo, Cadete nuevo, Pedido pedido)
     {
         viejo.CantEnvios--;
-        viejo.EliminarPedido(pedido);
+        viejo.SacarPedido(pedido);
         nuevo.CantEnvios++;
         nuevo.TomarPedido(pedido);
     }
@@ -95,6 +109,29 @@ public class Cadeteria
             Console.WriteLine("-----------------------------------------------");
                    
         }
+    }
+      public void MostrarPedidos()
+    {
+        foreach (var pedido in this.listadoPedidos!)
+        {
+            pedido.MostrarPedido();
+        }
+    }
+    public void JornalACobrar(int idCadete)
+    {
+        Cadete Encontrado = new Cadete();
+        if (this.listadoCadetes!.FirstOrDefault(c=>c.ObtenerID()==idCadete)!=null)
+            {
+                Encontrado=this.listadoCadetes!.FirstOrDefault(c=>c.ObtenerID()==idCadete)!;
+                Console.WriteLine("El Jornal a cobrar del cadete es: "+Encontrado.CantEnvios*500);
+            }else
+            {
+                Console.WriteLine("No se encontro el cadete seleccionado");
+            }
+    }
+    public void agregarPedido(Pedido pedido)
+    {
+        this.listadoPedidos!.Add(pedido);
     }
 
 }

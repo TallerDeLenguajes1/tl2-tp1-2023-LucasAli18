@@ -2,7 +2,7 @@
 using Cadetes;
 using Clientes;
 using Pedidos;
-using ArchivoExterno;
+using AccesoDatos;
 using System.IO;
 using System.Collections;
 using System.Linq;
@@ -14,12 +14,15 @@ internal class Program
     private static void Main(string[] args)
     {
         int numeroPedido=1;
+        AccesoADatos lecturaCSV = new CSV();
+        AccesoADatos JSONS = new JSON();
         Pedido nuevoPedido = new Pedido();
         Cadete cadeteAsignado = new Cadete();
         Cadete nuevoCadete = new Cadete();
         Cadeteria cadeteria = new Cadeteria();
         List<Pedido> listaPedidos = new List<Pedido>();
-        List<Cadete> listaCadetes = CSV.CargarCadetes("Cadetes.csv");
+        List<Cadete> listaCadetes =lecturaCSV.LeerArchivo("Cadetes.csv")!;
+        JSONS.GuardarArchivo(listaCadetes);
         cadeteria.AgregarCadete(listaCadetes);
         cadeteria.MostrarCadetes();
         
@@ -27,7 +30,7 @@ internal class Program
         do
         {
             Console.WriteLine("----------MENU----------");
-            Console.WriteLine("1)Dar de alta pedidos");
+            Console.WriteLine("1)Nuevo pedido");
             Console.WriteLine("2)Asignarlos a cadetes");
             Console.WriteLine("3)Cambiarlos de estado");
             Console.WriteLine("4)Reasignar el pedido a otro cadete");
@@ -38,12 +41,17 @@ internal class Program
             {
                 case 1:
                     nuevoPedido = cadeteria.DarDeAlta(numeroPedido);
-                    listaPedidos.Add(nuevoPedido);
                     numeroPedido++;
                 break;
                 case 2:
-                Console.WriteLine("Asignar el pedido al cadete");
-                cadeteAsignado = cadeteria.AsignarCadete(nuevoPedido);
+                int idCadete, idPedido;
+                cadeteria.MostrarPedidos();
+                Console.WriteLine("Selecciona el pedido que desea asignar");
+                int.TryParse(Console.ReadLine(), out idPedido);
+                Console.WriteLine("Selecciona el cadete");
+                int.TryParse(Console.ReadLine(), out idCadete);
+                cadeteria.AsignarCadeteAPedido(idPedido,idCadete);
+                cadeteria.JornalACobrar(idCadete);
                 break;
                 case 3:
                 Console.WriteLine("Cambiar de estado el pedido");
@@ -51,7 +59,6 @@ internal class Program
                 break;
                 case 4:
                 Console.WriteLine("Reasignar el pedido a ");
-                nuevoCadete = cadeteria.AsignarCadete(nuevoPedido);
                 cadeteria.cambiarCadete(cadeteAsignado, nuevoCadete, nuevoPedido);
                 cadeteAsignado = nuevoCadete;
                 break;
